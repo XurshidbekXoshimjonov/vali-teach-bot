@@ -16,33 +16,33 @@ graphic_design_router: Router = Router()
 
 
 @graphic_design_router.message(F.text == "💡 Grafik dizayn")
-async def f1(message: Message, state: FSMContext):
+async def jhyt(message: Message, state: FSMContext):
     await message.answer("Iltimos so'rovnomani to'ldiring!")
     await state.set_state(Form.ism_familiya)
     await message.answer("✏️ Ism, familiyangizni kiriting?",)
 
 
 @graphic_design_router.message(Form.ism_familiya)
-async def  f1(message: Message, state: FSMContext):
+async def  jhyt(message: Message, state: FSMContext):
     await state.update_data(ism_familiya=message.text)
     await state.set_state(Form.yosh)
     await message.answer("👨🏼‍💼👩🏼‍💼 Yoshingiz?")
 
 @graphic_design_router.message(Form.yosh)
-async def  f1(message: Message, state: FSMContext):
+async def  jhyt(message: Message, state: FSMContext):
     await state.update_data(yosh=message.text)
     await state.set_state(Form.hudud)
-    await message.answer("📍 Qaysi hududda yashaysiz?\n(Masalan: Farg'ona shahri, Rishton tumani)")
+    await message.answer("📍 Qaysi hududda yashaysiz?\n(Masalan: Farg'ona viloyati, Rishton tumani)")
 
 @graphic_design_router.message(Form.hudud)
-async def  f1(message: Message, state: FSMContext):
+async def  jhyt(message: Message, state: FSMContext):
     await state.update_data(hudud=message.text)
     await state.set_state(Form.aloqa)
     await message.answer("📞 Telefon raqamingiz?")
 
 
 @graphic_design_router.message(Form.aloqa)
-async def  f1(message: Message, state: FSMContext):
+async def  jhyt(message: Message, state: FSMContext):
     await state.update_data(aloqa=message.text)
     await state.set_state(Form.murojaat)
     await message.answer("""⌚️ Murojaat qilish vaqti:\n 
@@ -52,7 +52,7 @@ Masalan, 9:00 - 18:00
 """)
     
 @graphic_design_router.message(Form.murojaat)
-async def  f1(message: Message, state: FSMContext):
+async def  jhyt(message: Message, state: FSMContext):
     await state.update_data(murojaat=message.text)    
     user = await state.get_data()
     await state.clear()

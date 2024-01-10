@@ -11,13 +11,49 @@ from aiogram.fsm.context import FSMContext
 programming_router: Router = Router()
 
 
-@programming_router.message(F.text == "👨‍💻 Dasturlash")
-@programming_router.message(F.text == "👨‍💻 Dasturlash haqida")
-@programming_router.message(F.text == "🇬🇧 Ingliz tili haqida")
-@programming_router.message(F.text == "🇬🇧 Ingliz tili")
-@programming_router.message(F.text == "💻 Kompyuter savodxonligi")
-@programming_router.message(F.text == "💻 Kompyuter savodxonligi haqida")
-@programming_router.message(F.text == "💻 Kompyuter savodxonligi haqida")
-@programming_router.message(F.text == "O'quv markaz haqida")
-async def mjng(message: Message):
-    await message.answer("Kechirasiz, Hozircha bu bo'lim ishlamaydi, yaqin kunlarda bu bo'lim ham ishga tushuriladi!😉", reply_markup=menu)
+
+@programming_router.message(F.text == "👨‍💻Dasturlash")
+async def f1(message: Message, state: FSMContext):
+    await message.answer("Iltimos so'rovnomani to'ldiring!")
+    await state.set_state(Form.ism_familiya_dasturlash)
+    await message.answer("✏️ Ism, familiyangizni kiriting?",)
+
+
+@programming_router.message(Form.ism_familiya_dasturlash)
+async def  f1(message: Message, state: FSMContext):
+    await state.update_data(ism_familiya_dasturlash=message.text)
+    await state.set_state(Form.yosh_dasturlash)
+    await message.answer("👨🏼‍💼👩🏼‍💼 Yoshingiz?")
+
+@programming_router.message(Form.yosh_dasturlash)
+async def  f1(message: Message, state: FSMContext):
+    await state.update_data(yosh_dasturlash=message.text)
+    await state.set_state(Form.hudud_dasturlash)
+    await message.answer("📍 Qaysi hududda yashaysiz?\n(Masalan: Farg'ona viloyati, Rishton tumani)")
+
+@programming_router.message(Form.hudud_dasturlash)
+async def  f1(message: Message, state: FSMContext):
+    await state.update_data(hudud_dasturlash=message.text)
+    await state.set_state(Form.aloqa_dasturlash)
+    await message.answer("📞 Telefon raqamingiz?")
+
+
+@programming_router.message(Form.aloqa_dasturlash)
+async def  f1(message: Message, state: FSMContext):
+    await state.update_data(aloqa_dasturlash=message.text)
+    await state.set_state(Form.murojaat_dasturlash)
+    await message.answer("""⌚️ Murojaat qilish vaqti\nQaysi vaqtda murojaat qilish mumkin?\nMasalan, 9:00 - 18:00\n""")
+    
+@programming_router.message(Form.murojaat_dasturlash)
+async def  f1(message: Message, state: FSMContext):
+    await state.update_data(murojaat_dasturlash=message.text)    
+    user = await state.get_data()
+    await state.clear()
+  
+
+    await message.answer(f"Buyurtma:\n 📚Kurs: 👨‍💻#Dasturlash\n 👨‍🎓🧑‍🎓Mijoz: {user['ism_familiya_dasturlash']}\n 👨🏼‍💼👩🏼‍💼 Yoshi: {user['yosh_dasturlash']}\n 📍 Yashash joyi: {user['hudud_dasturlash']}\n 🇺🇿  Telegram: @{message.from_user.username} \n  📞 Telefon raqami: {user['aloqa_dasturlash']}\n ⌚️ Murojaat qilish vaqti:{user['murojaat_dasturlash']}\n")
+
+    await bot.send_message(chat_id="5626949720", text=f"Buyurtma:\n 📚Kurs: 👨‍💻#Dasturlash\n 👨‍🎓🧑‍🎓Mijoz: {user['ism_familiya_dasturlash']}\n 👨🏼‍💼👩🏼‍💼 Yoshi: {user['yosh_dasturlash']}\n 📍 Yashash joyi: {user['hudud_dasturlash']}\n 🇺🇿  Telegram: @{message.from_user.username} \n  📞 Telefon raqami: {user['aloqa_dasturlash']}\n ⌚️ Murojaat qilish vaqti:{user['murojaat_dasturlash']}\n")
+   
+
+
